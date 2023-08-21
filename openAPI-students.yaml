@@ -8,6 +8,8 @@ servers:
 tags:
   - name: Student Management
     description: Operations related to student management
+  - name: Teacher Management
+    description: Operations related to teacher management
 paths:
   /students:
     get:
@@ -48,7 +50,7 @@ paths:
                 $ref: '#/components/schemas/Student'
         '405':
           description: Invalid input
-  /students/{studentId}:     
+  /students/{studentId}:   
     put:
       summary: Update student details
       description: Update details of a student
@@ -98,6 +100,43 @@ paths:
           description: Student successfully deleted
         '404':
           description: Student not found
+  /teachers:
+    get:
+      summary: Display teachers
+      description: Display teachers
+      tags:
+        - Teacher Management
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Teacher'
+    post:
+      summary: Add a new teacher
+      description: Add a new teacher
+      operationId: addTeacher
+      tags:
+        - Teacher Management
+      requestBody:
+        description: Create a new teacher
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+        '405':
+          description: Invalid input
 components:
   schemas:
     Student:
@@ -115,6 +154,43 @@ components:
         birthDate:
           type: string
           format: date
+    Teacher:
+      required:
+        - name
+        - firstname
+        - courses
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: RAMAROZAKA
+        firstname:
+          type: string
+          example: Tokimahery
+        courses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Course'
+    Course:
+      required:
+        - courseName
+        - courseCode
+        - duration
+      type: object
+      properties:
+        courseName:
+          type: string
+          example: Algorithmique
+        courseCode:
+          type: string
+          example: prog1
+        duration:
+          type: string
+          example: 2 hours
   requestBodies:
     Students:
       description: Student object that needs to be added
@@ -125,3 +201,9 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Student'
+    TeacherRequest:
+      description: Teacher object that needs to be added
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Teacher'
