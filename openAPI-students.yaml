@@ -1,112 +1,77 @@
-{
-  "openapi": "3.0.3",
-  "info": {
-    "title": "Onboarding API",
-    "description": "HEI - H1 - STD22023",
-    "version": "1.0.11"
-  },
-  "servers": [
-    {
-      "url": "https://STD22023"
-    }
-  ],
-  "paths": {
-    "/students": {
-      "get": {
-        "summary": "Display students",
-        "description": "Display students",
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Student"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid status value"
-          }
-        }
-      },
-      "post": {
-        "summary": "Add a new student",
-        "description": "Add a new student",
-        "operationId": "addStudent",
-        "requestBody": {
-          "description": "Create a new student",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Student"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Student"
-                }
-              }
-            }
-          },
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Student": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 1
-          },
-          "name": {
-            "type": "string",
-            "example": "Tiana Finaritra RANDRIANARISOA"
-          },
-          "birthDate": {
-            "type": "string",
-            "format": "date"
-          }
-        }
-      }
-    },
-    "requestBodies": {
-      "Students": {
-        "description": "Student object that needs to be added",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Student"
-            }
-          },
-          "application/xml": {
-            "schema": {
-              "$ref": "#/components/schemas/Student"
-            }
-          }
-        }
-      }
-    }
-  }
-}
+openapi: 3.0.3
+info:
+  title: Onboarding API
+  description: HEI - H1 - STD22023
+  version: 1.0.11
+servers:
+  - url: https://STD22023
+tags:
+  - name: Student Management    # Tag choisi
+    description: Operations related to student management
+paths:
+  /students:
+    get:
+      summary: Display students
+      description: Display students
+      tags:
+        - Student Management    
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        '400':
+          description: Invalid status value
+    post:
+      summary: Add a new student
+      description: Add a new student
+      operationId: addStudent
+      tags:
+        - Student Management    
+      requestBody:
+        description: Create a new student
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '405':
+          description: Invalid input
+components:
+  schemas:
+    Student:
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Tiana Finaritra RANDRIANARISOA
+        birthDate:
+          type: string
+          format: date
+  requestBodies:
+    Students:
+      description: Student object that needs to be added
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Student'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Student'
